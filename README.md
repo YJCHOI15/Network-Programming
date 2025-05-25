@@ -14,7 +14,7 @@ TCP / UDP 프로토콜
 
 # 📁 과제 목록
 과제명	설명	주요 개념
-01_tcp_echo_server	간단한 TCP 에코 서버 구현	TCP, blocking socket
+01 TCP Client–Server 통신 프로그램 
 02_udp_chat_client	UDP 기반 채팅 클라이언트/서버 구현	UDP, datagram
 03_multi_client_server	다중 클라이언트 처리 서버 구현	select() 또는 멀티스레드
 04_file_transfer	클라이언트-서버 간 파일 전송	파일 I/O, TCP stream
