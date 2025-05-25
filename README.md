@@ -1,8 +1,8 @@
-📡 네트워크 프로그래밍 과제 모음
+# 📡 네트워크 프로그래밍 과제 모음
 이 레포지토리는 [네트워크 프로그래밍(Network Programming)] 수업에서 수행한 과제들을 정리한 공간입니다. TCP/IP 기반 통신, 소켓 프로그래밍, 멀티스레딩, 클라이언트-서버 모델 등의 개념을 실습하며 배운 내용을 코드로 구현하였습니다.
 
-🛠 기술 스택
-C / C++
+# 🛠 기술 스택
+C
 
 Python (선택적으로 사용한 경우)
 
@@ -12,7 +12,7 @@ TCP / UDP 프로토콜
 
 멀티스레딩 (pthread or select, epoll 등)
 
-📁 과제 목록
+# 📁 과제 목록
 과제명	설명	주요 개념
 01_tcp_echo_server	간단한 TCP 에코 서버 구현	TCP, blocking socket
 02_udp_chat_client	UDP 기반 채팅 클라이언트/서버 구현	UDP, datagram
@@ -23,17 +23,8 @@ TCP / UDP 프로토콜
 
 📂 각 과제 폴더에는 과제 설명 및 실행 방법이 포함되어 있습니다.
 
-✅ 실행 방법 (예시)
-bash
-Copy
-Edit
-cd 01_tcp_echo_server
-make
-./server 1234
 
-# 새 터미널에서
-./client 127.0.0.1 1234
-📚 학습 목표
+# 📚 학습 목표
 소켓 생성 및 연결 과정 이해
 
 TCP vs UDP 차이점 실습을 통한 체득
