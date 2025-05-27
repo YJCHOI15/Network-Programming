@@ -5,53 +5,36 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 
-int main(int argc, char** argv) {
-    int sockfd, cSockfd;
-    struct sockaddr_in servaddr, cliaddr;
+int main(int argc, char **argv) {
+    int serv_sockfd, cli_sockfd;
+    struct sockaddr_in serv_addr, cli_addr;
     char buf[1024];
-    socklen_t len;
+    socklen_t cli_len;
 
-    if (argc < 2) {
-        printf("usage:./server localPort\n");
-        return -1;
-    }
-
-    if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
-        perror("socket creation failed");
-        return -1;
-    }
+    serv_sockfd = socket(AF_INET, SOCK_STREAM, 0);
 
     int enable = 1;
-    setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int));
+    setsockopt(serv_sockfd, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int));
 
-    servaddr.sin_family = AF_INET;
-    servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
+    serv_addr.sin_family = AF_INET;
+    serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);
+    serv_addr.sin_port = htons(atoi(argv[1]));
 
-    servaddr.sin_port = htons(atoi(argv[1]));
+    bind(serv_sockfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
 
-    if (bind(sockfd, (struct sockaddr *)&servaddr, sizeof(servaddr)) < 0) {
-        perror("bind failed");
-        return -1;
-    }
+    listen(serv_sockfd, 5);
 
-    if (listen(sockfd, 5) < 0) {
-        perror("socket failed");
-        return -1;
-    }
-
-    if ((cSockfd = accept(sockfd, (struct sockaddr *)&cliaddr, &len)) < 0) {
-        perror("accept error");
-        return -1;
-    }
+    cli_sockfd = accept(serv_sockfd, (struct sockaddr *)&cli_addr, &cli_len);
 
     memset(buf, 0, sizeof(buf));
-    read(cSockfd, buf, sizeof(buf));
+    read(cli_sockfd, buf, sizeof(buf));
     printf("%s\n", buf);
 
     strcat(buf, "_최용진");
-    write(cSockfd, buf, strlen(buf));
+    write(cli_sockfd, buf, strlen(buf));
 
-    close(cSockfd);
-    close(sockfd);
+    close(cli_sockfd);
+    close(serv_sockfd);
+
     return 0;
 }
