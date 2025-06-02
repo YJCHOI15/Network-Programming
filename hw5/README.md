@@ -1,4 +1,4 @@
-![Image](https://github.com/user-attachments/assets/3adc809d-be05-48e4-a364-84624b2af1d3)
+![Image](https://github.com/user-attachments/assets/ebe86fbe-0546-45c1-b57a-544b4435ba8f)
 
 본 프로젝트는 **TCP 소켓 프로그래밍**을 기반으로 한 클라이언트-서버 프로그램으로, 멀티 프로세스를 활용한 계산 기능과 자식 프로세스 관리, 그리고 결과 기록 기능을 포함합니다.  
 두 개의 프로그램 **hw5_client**와 **hw5_server**로 구성되어 있습니다.
@@ -61,4 +61,4 @@
 
 ## 빌드 및 실행결과
 
-![Image](https://github.com/user-attachments/assets/38b63270-84fc-4dc7-91d3-a1a9df30cfdb)
+![Image](https://github.com/user-attachments/assets/548b23ae-7b59-4ecb-927e-2f32a6da1791)
