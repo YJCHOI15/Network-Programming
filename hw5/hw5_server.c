@@ -23,7 +23,7 @@ int main(int argc, char **argv) {
     act.sa_handler = read_childproc;
     sigemptyset(&act.sa_mask);
     act.sa_flags = 0;
-    state = sigaction(SIGCHLD, &act, 0);
+    state = sigaction(SIGCHLD, &act, 0);  // 자식 프로세스 종료되면 read_childproc 호출
 
     serv_sockfd = socket(AF_INET, SOCK_STREAM, 0);
 
@@ -50,7 +50,7 @@ int main(int argc, char **argv) {
         cli_sockfd = accept(serv_sockfd, (struct sockaddr *)&cli_addr, &cli_len);
 
         if (cli_sockfd < 0) {
-            continue;           // 여기 에러처리하면 다음 클라이언트 못받음
+            continue;               // 시그널(SIGCHLD)에 의해 accept()가 강제로 중단(GPT피셜)
         }
         
         printf("new client connected...\n");
@@ -58,7 +58,8 @@ int main(int argc, char **argv) {
         pid = fork();
 
         if (pid == 0) {
-            close(serv_sockfd);
+            close(serv_sockfd);      // 자식 프로세스에서 서버 소켓 필요 X
+                                     // 클라이언트 소켓만 처리하면 됨
 
             char opCount;
             int opResult;
@@ -67,7 +68,7 @@ int main(int argc, char **argv) {
 
             read(cli_sockfd, &opCount, 1);
             if(opCount <= 0) {
-                printf("Save file(%d)\n", opCount);
+                printf("Server close(%d)\n", opCount);
                 close(cli_sockfd);
                 return 0;
             }
@@ -101,10 +102,11 @@ int main(int argc, char **argv) {
             printf("=%d\n", opResult);
 
             close(cli_sockfd);
-            return 0;
+            return 0;                    // 자식 프로세스 종료
         }
         else {
-            close(cli_sockfd);
+            close(cli_sockfd);           // 부모 프로세스는 accept만 하기 때문에 
+                                         // 클라이언트 소켓 필요 X
         }
     }
 
@@ -115,6 +117,6 @@ int main(int argc, char **argv) {
 void read_childproc(int sig) {
     pid_t pid;
     int status;
-    pid = waitpid(-1, &status, WNOHANG);
+    pid = waitpid(-1, &status, WNOHANG);  // 현재 프로세스의 모든 자식 프로세스를 대상으로 함
     printf("removed proc id: %d \n", pid);
   }
