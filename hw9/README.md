@@ -24,9 +24,11 @@ ICMP Echo Request 패킷을 전송하고, 응답(Echo Reply)을 수신하여 네
 ```c
 struct packet {
     struct icmphdr hdr;
-    char msg[PACKETSIZE - sizeof(struct icmphdr)];
+    char msg[PACKETSIZE - sizeof(struct icmphdr)];     // 데이터 크기 = 패킷 크기 - 헤더 크기  
 };
 ```
+
+![Image](https://github.com/user-attachments/assets/5c65ffc5-1fc4-4893-9d40-84e2d1238aec)
 
 ---
 
@@ -82,6 +84,8 @@ ICMP: type[0/0] checksum[xxxx] id[xxxx] seq[xx]
 - IP 헤더와 ICMP 헤더를 직접 파싱 (`iphdr`, `icmphdr`)
 - `inet_ntoa()`로 IP 주소 문자열 출력
 
+![image](https://github.com/user-attachments/assets/402f9d35-7e47-4fb0-99b0-da50dd7d4c60)
+
 ---
 
 ### `checksum(void *b, int len)`
@@ -121,6 +125,8 @@ ICMP: type[0/0] checksum[xxxx] id[xxxx] seq[xx]
 - 이 프로그램은 IPv4만 지원하며, ICMPv6는 지원하지 않습니다.
 - `gethostbyname()`은 `getaddrinfo()`로 대체 가능하며, 이 코드는 전통적인 BSD 소켓 스타일입니다.
 - `inet_ntop()`을 사용하면 IPv6 주소도 문자열로 출력할 수 있습니다.
+
+---
 
 ## 빌드 및 실행결과
 
