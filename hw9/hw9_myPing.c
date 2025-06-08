@@ -37,18 +37,18 @@ unsigned short checksum(void *b, int len) {
 
 void display(void *buf, int bytes) {
     struct iphdr *ip = buf;
-    struct icmphdr *icmp = buf + ip->ihl*4;
+    struct icmphdr *icmp = buf + ip->ihl*4;  // IP 헤더 길이만큼 건너 뜀
     struct in_addr addr;
 
     printf("----------------\n");
 
-    addr.s_addr = ip->saddr;
+    addr.s_addr = ip->saddr;  // 출발지
 
     printf("IPv%d: hdr-size=%d pkt-size=%d protocol=%d TTL=%d src=%s ",
         ip->version, ip->ihl*4, ntohs(ip->tot_len), ip->protocol,
         ip->ttl, inet_ntoa(addr));
     
-    addr.s_addr = ip->saddr;
+    addr.s_addr = ip->saddr;  // 목적지
 
     printf("dst=%s\n", inet_ntoa(addr));
     if (icmp->un.echo.id == pid) {
@@ -64,7 +64,7 @@ void listener(void) {
     struct sockaddr_in addr;
     unsigned char buf[512];
 
-    int sd = socket(AF_INET, SOCK_RAW, proto->p_proto);
+    int sd = socket(AF_INET, SOCK_RAW, proto->p_proto);  // 세 번째 인자에서 Raw 소켓에서 사용할 프로토콜 지정
 
     if (sd < 0) {
         perror("socket creation error");
@@ -101,9 +101,11 @@ void ping(struct sockaddr_in *addr) {
         return;
     }
 
+    // 패킷의 TTL 설정
     if (setsockopt(sd, SOL_IP, IP_TTL, &val, sizeof(val)) != 0)
         perror("set TTL option error");
-    
+
+    // Non-Blocking 소켓 설정
     if (fcntl(sd, F_SETFL, O_NONBLOCK) != 0) 
         perror("request nonblocking I/O");
 
